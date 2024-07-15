@@ -33,21 +33,21 @@ def log_last_run_time():
         f.write(f"{datetime.now()}: Last run time logged.\n")
 
 # Get the last run time
-# def get_last_run_time():
-#     if os.path.exists(log_file):
-#         with open(log_file, 'r') as f:
-#             for line in f.readlines():
-#                 if "Last run time logged." in line:
-#                     return datetime.fromisoformat(line.split(":")[0])
-#     return None
+def get_last_run_time():
+    if os.path.exists(log_file):
+        with open(log_file, 'r') as f:
+            for line in f.readlines():
+                if "Last run time logged." in line:
+                    return datetime.fromisoformat(line.split(":")[0])
+    return None
 
 # Check if the script should run
-# def should_run():
-#     last_run_time = get_last_run_time()
-#     if last_run_time is None:
-#         return True
-#     next_run_time = last_run_time + timedelta(days=15)
-#     return datetime.now() >= next_run_time
+def should_run():
+    last_run_time = get_last_run_time()
+    if last_run_time is None:
+        return True
+    next_run_time = last_run_time + timedelta(days=15)
+    return datetime.now() >= next_run_time
 
 # Run the Python script
 def run_script():
