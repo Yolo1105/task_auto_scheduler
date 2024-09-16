@@ -1,12 +1,12 @@
 import os
 import subprocess
 import git
-from datetime import datetime
+from datetime import datetime, timedelta
 import tkinter as tk
 from tkinter import messagebox
 
 # Configuration paths
-repo_path = r"C:\Users\mohan\OneDrive\Desktop\GitHub_Repo\task_auto_scheduler"  # Your Git repository path
+repo_path = "C:\\Users\\mohan\\OneDrive\\Desktop\\GitHub_Repo\\task_auto_scheduler"  # Your Git repository path
 script_path = os.path.join(repo_path, 'test_script.py')  # Your test Python script path
 log_dir = os.path.join(os.path.expanduser('~'), 'Desktop', 'log')
 log_file = os.path.join(log_dir, 'last_run.log')  # Log file to store the last run time
@@ -18,7 +18,6 @@ os.makedirs(log_dir, exist_ok=True)
 def show_message(title, message):
     root = tk.Tk()
     root.withdraw()  # Hide the main window
-    root.attributes("-topmost", True)  # Always on top
     messagebox.showinfo(title, message)
     root.destroy()
 
@@ -51,7 +50,6 @@ def should_run():
 
 # Run the Python script
 def run_script():
-    log_message("Attempting to run the test script.")
     try:
         subprocess.run(['python', script_path], check=True)
         log_message("Script executed successfully.")
@@ -60,7 +58,6 @@ def run_script():
 
 # Commit and push changes to GitHub
 def commit_and_push_changes():
-    log_message("Attempting to commit and push changes.")
     try:
         repo = git.Repo(repo_path)
         origin = repo.remote(name='origin')
@@ -69,14 +66,10 @@ def commit_and_push_changes():
         repo.index.commit(f"Auto-commit on {datetime.now()}")
         origin.push()
         log_message("Changes pushed to GitHub.")
-        show_message("Upload Success", "Changes have been successfully pushed to GitHub.")
     except Exception as e:
         log_message(f"Error during commit/push: {e}")
-        show_message("Upload Failed", "There was an error pushing changes to GitHub.")
 
 if __name__ == "__main__":
-    log_message("Script started.")
-    # Temporarily commenting out the should_run check
     if should_run():
         show_message("Script Start", "The script is starting to run.")
         log_message("Script start running.")
